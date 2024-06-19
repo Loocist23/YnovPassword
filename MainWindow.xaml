@@ -1,0 +1,45 @@
+﻿<Window x:Class="YnovPassword.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YnovPassword"
+        mc:Ignorable="d"
+        Title="BitWarden du pauvre mdr" Height="499" Width="800" MinHeight="499" MinWidth="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="style/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top bar with buttons -->
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+            <Button Content="Paramètres" Margin="5" Style="{StaticResource Btn-primary}" Click="OpenSettings_Click" />
+            <Button Content="+ Ajouter" Margin="5" Style="{StaticResource Btn-primary}" />
+            <Button Content="Modifier" Margin="5" Style="{StaticResource Btn-primary}" />
+            <Button Content="Supprimer" Margin="5" Style="{StaticResource Btn-alert}" Click="DeleteButton_Click" />
+        </StackPanel>
+
+        <!-- Main content area -->
+        <DataGrid Grid.ColumnSpan="2" Grid.Row="1" Margin="5" d:ItemsSource="{d:SampleData ItemCount=5}" Style="{StaticResource Grid-grisClair}" />
+
+        <!-- Bottom area for additional controls and information -->
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Copier ID" Margin="5" Style="{StaticResource Btn-form}" />
+            <Button Content="Copier MDP" Margin="5" Style="{StaticResource Btn-form}" />
+            <Button Content="Fermer" Margin="5" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

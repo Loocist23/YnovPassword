@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YnovPassword.modele
 {
-    internal class ProfilsData
+    public class ProfilsData
     {
+        public ProfilsData()
+        {
+            Nom = string.Empty;
+            URL = string.Empty;
+            Login = string.Empty;
+            EncryptedPassword = string.Empty;
+        }
+
         [Key]
         public Guid ID { get; set; }
 
@@ -32,10 +36,7 @@ namespace YnovPassword.modele
         [StringLength(255)]
         public string EncryptedPassword { get; set; }
 
-
-        public virtual Utilisateurs Utilisateurs { get; set; }
-        public virtual Dossiers Dossiers { get; set; }
-
-
+        public virtual Utilisateurs? Utilisateurs { get; set; }
+        public virtual Dossiers? Dossiers { get; set; }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YnovPassword.modele
 {
     internal class Configuration
     {
+        public Configuration()
+        {
+            VersionMajeure = string.Empty;
+            VersionMineure = string.Empty;
+        }
+
         [Key]
         public Guid ID { get; set; }
 
@@ -20,5 +22,4 @@ namespace YnovPassword.modele
         [StringLength(100)]
         public string VersionMineure { get; set; }
     }
-
 }

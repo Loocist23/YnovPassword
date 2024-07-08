@@ -148,6 +148,10 @@ namespace YnovPassword.general
 
         }
 
+        public static bool ValiderMotdepasse(string motDePasse, string confirmerMotDePasse)
+        {
+            return motDePasse == confirmerMotDePasse && motDePasse.Length >= 8;
+        }
 
         public static void CreerSuperAdmin(MigrationBuilder oLocal_migrationBuilder)
         {
@@ -166,6 +170,8 @@ namespace YnovPassword.general
 
             oLocal_migrationBuilder.InsertData("ProfilsData", new[] { "ID", "DossiersID", "UtilisateursID", "Nom", "URL", "Login", "EncryptedPassword" }, new object[] { gLocal_IdProfilsData, gLocal_IdDossier, gLocal_IdUtilisateur, classConstantes.sProfilConection_Nom_YnovPassword, "", classConstantes.sUtilisateur_Nom_Superadmin, sLocal_PasswordSuperAdmin });
         }
+
+        
 
     }
 }

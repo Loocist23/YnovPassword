@@ -25,20 +25,38 @@
         </Grid.RowDefinitions>
 
         <!-- Top bar with buttons -->
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button Content="Paramètres" Margin="5" Style="{StaticResource Btn-primary}" Click="OpenSettings_Click" />
-            <Button Content="+ Ajouter" Margin="5" Style="{StaticResource Btn-primary}" />
-            <Button Content="Modifier" Margin="5" Style="{StaticResource Btn-primary}" />
-            <Button Content="Supprimer" Margin="5" Style="{StaticResource Btn-alert}" Click="DeleteButton_Click" />
+            <Button Content="+ Ajouter" Margin="5" Style="{StaticResource Btn-primary}" Click="AddButton_Click" />
         </StackPanel>
 
         <!-- Main content area -->
-        <DataGrid Grid.ColumnSpan="2" Grid.Row="1" Margin="5" d:ItemsSource="{d:SampleData ItemCount=5}" Style="{StaticResource Grid-grisClair}" />
+        <DataGrid x:Name="dataGridProfils" Grid.ColumnSpan="2" Grid.Row="1" Margin="5" AutoGenerateColumns="False" Style="{StaticResource Grid-grisClair}" SelectionChanged="DataGridProfils_SelectionChanged">
+            <!-- Define your DataGrid columns here -->
+            <DataGrid.Columns>
+                <!-- <DataGridTextColumn Header="ID" Binding="{Binding ID}" /> -->
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
+                <DataGridTextColumn Header="URL" Binding="{Binding URL}" />
+                <DataGridTextColumn Header="Login" Binding="{Binding Login}" />
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Afficher" Margin="5" Style="{StaticResource Btn-primary}" Click="ShowPassword_Click" Tag="{Binding}" />
+                                <Button Content="Copier MDP" Margin="5" Style="{StaticResource Btn-form}" Click="CopyPassword_Click" Tag="{Binding}" />
+                                <Button Content="Modifier" Margin="5" Style="{StaticResource Btn-primary}" Click="EditButton_Click" Tag="{Binding}" />
+                                <Button Content="Supprimer" Margin="5" Style="{StaticResource Btn-alert}" Click="DeleteButton_Click" Tag="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- Bottom area for additional controls and information -->
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Copier ID" Margin="5" Style="{StaticResource Btn-form}" />
-            <Button Content="Copier MDP" Margin="5" Style="{StaticResource Btn-form}" />
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="Mot de passe:" Margin="5" VerticalAlignment="Center" Visibility="Collapsed" x:Name="PasswordLabel"/>
+            <TextBox x:Name="PasswordTextBox" Margin="5"  IsReadOnly="True" Visibility="Collapsed"/>
             <Button Content="Fermer" Margin="5" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" />
         </StackPanel>
     </Grid>

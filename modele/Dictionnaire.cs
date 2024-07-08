@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YnovPassword.modele
 {
-    class Dictionnaire
+    internal class Dictionnaire
     {
+        public Dictionnaire()
+        {
+            Mot = string.Empty;
+        }
+
         [Key]
-        public Guid ID { get; set; } = new Guid();
+        public Guid ID { get; set; }
 
         [Required]
         [StringLength(100)]

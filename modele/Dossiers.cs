@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YnovPassword.modele
 {
-    class Dossiers
+    public class Dossiers
     {
-
         public Dossiers()
         {
-            this.ProfilsData = new HashSet<ProfilsData>();
+            Nom = string.Empty;
+            ProfilsData = new HashSet<ProfilsData>();
         }
 
         [Key]
@@ -24,6 +21,5 @@ namespace YnovPassword.modele
 
         [Required]
         public virtual ICollection<ProfilsData> ProfilsData { get; set; }
-
     }
 }

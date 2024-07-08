@@ -1,9 +1,10 @@
 ﻿<Window x:Class="YnovPassword.AddProfileWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ajouter Profil" Height="300" Width="400">
+        Title="Ajouter Profil" Height="350" Width="400">
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -14,20 +15,25 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Nom:</TextBlock>
-        <TextBox x:Name="NomTextBox" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="NomTextBox" Grid.Row="0" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">URL:</TextBlock>
-        <TextBox x:Name="UrlTextBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="UrlTextBox" Grid.Row="1" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Login:</TextBlock>
-        <TextBox x:Name="LoginTextBox" Grid.Row="2" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="LoginTextBox" Grid.Row="2" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Margin="5">Mot de Passe:</TextBlock>
         <TextBox x:Name="PasswordTextBox" Grid.Row="3" Grid.Column="1" Margin="5"/>
+        <Button Content="Générer" Grid.Row="3" Grid.Column="2" Margin="5" Click="GeneratePasswordButton_Click"/>
 
-        <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Ajouter" Margin="5" Click="AddButton_Click"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Margin="5">Dossier:</TextBlock>
+        <ComboBox x:Name="DossierComboBox" Grid.Row="4" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
+
+        <Button Grid.Row="5" Grid.ColumnSpan="3" Content="Ajouter" Margin="5" Click="AddButton_Click"/>
     </Grid>
 </Window>

@@ -14,47 +14,55 @@ namespace YnovPassword
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string username = this.txtUsername.Text.Trim(); // Récupère et nettoie le nom d'utilisateur du TextBox.
-            string password = this.txtPassword.Password.Trim(); // Récupère et nettoie le mot de passe du PasswordBox.
+            string username = this.txtUsername.Text.Trim();
+            string password = this.txtPassword.Password.Trim();
 
-            // Vérifie si l'un des champs est vide.
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Le nom d'utilisateur et le mot de passe ne peuvent pas être vides.", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return; // Stoppe l'exécution si l'un des champs est vide.
+                return;
             }
 
-            if (ValidateUser(username, password))
+            if (ValidateUser(username, password, out Guid userId))
             {
-                MainWindow mainWindow = new MainWindow(); // Crée une instance de la fenêtre principale.
-                mainWindow.Show(); // Affiche la fenêtre principale.
-                this.Close(); // Ferme la fenêtre de connexion.
+                App.LoggedInUserId = userId; // Stocker l'ID utilisateur après une connexion réussie
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
             }
             else
             {
-                // Affiche un message si les identifiants sont incorrects.
                 MessageBox.Show("Identifiant ou mot de passe incorrect.", "Erreur de connexion", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private bool ValidateUser(string username, string password)
+        private bool ValidateUser(string username, string password, out Guid userId)
         {
+            userId = Guid.Empty;
             bool isUserValid;
-            using (DataContext dataContext = new DataContext()) // Initialise le contexte de données.
+            using (DataContext dataContext = new DataContext())
             {
-                // Vérifie si un utilisateur avec le login et le mot de passe crypté correspondant existe.
-                isUserValid = dataContext.Utilisateurs.Any(user =>
-                    user.Login == username &&
-                    user.ProfilsData.Single().EncryptedPassword == classFonctionGenerale.CrypterChaine(password));
+                var user = dataContext.Utilisateurs.FirstOrDefault(u =>
+                    u.Login == username &&
+                    u.ProfilsData.Single().EncryptedPassword == classFonctionGenerale.CrypterChaine(password));
+
+                if (user != null)
+                {
+                    isUserValid = true;
+                    userId = user.ID; // Récupérer l'ID utilisateur
+                }
+                else
+                {
+                    isUserValid = false;
+                }
             }
-            return isUserValid; // Retourne vrai si l'utilisateur est valide, faux autrement.
+            return isUserValid;
         }
 
         private void CreateUserButton_Click(object sender, RoutedEventArgs e)
         {
             NewUserWindow newUserWindow = new NewUserWindow();
-            newUserWindow.ShowDialog(); // Utilisez ShowDialog pour une fenêtre modale
+            newUserWindow.ShowDialog();
         }
-
     }
 }

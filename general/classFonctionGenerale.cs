@@ -1,5 +1,4 @@
-﻿using DLLYnov;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using YnovPassword.general;
+using DllYnov;
 
 namespace YnovPassword.general
 {

@@ -40,6 +40,12 @@ namespace YnovPassword
         {
             if (sender is Button button && button.Tag is ProfilsData item)
             {
+                if (item.UtilisateursID == App.LoggedInUserId)
+                {
+                    MessageBox.Show("Vous ne pouvez pas supprimer votre propre profil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 using (var context = new DataContext())
                 {
                     context.ProfilsData.Remove(item);
@@ -49,13 +55,19 @@ namespace YnovPassword
             }
         }
 
+
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is ProfilsData item)
             {
-                // Logique de modification de l'élément 'item'
+                EditProfileWindow editProfileWindow = new EditProfileWindow(item);
+                if (editProfileWindow.ShowDialog() == true)
+                {
+                    dataGridProfils.Items.Refresh();
+                }
             }
         }
+
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -101,5 +113,21 @@ namespace YnovPassword
             PasswordLabel.Visibility = Visibility.Collapsed;
             PasswordTextBox.Visibility = Visibility.Collapsed;
         }
+
+        private void CrashApi_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int? divisor = null; // Définissez une variable nullable qui provoquera une division par zéro
+                int result = 10 / divisor.Value; // Provoque une exception de division par zéro
+            }
+            catch (Exception ex)
+            {
+                classFonctionGenerale.GestionErreurLog(ex, "Erreur lors de la division par zéro dans CrashApi_Click", false);
+            }
+        }
+
+
+
     }
 }

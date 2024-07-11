@@ -55,9 +55,10 @@
 
         <!-- Bottom area for additional controls and information -->
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="Fermer" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" HorizontalAlignment="Left" />
+            <Button Content="Crash l'APP" Style="{StaticResource Btn-primary}" Click="CrashApi_Click" HorizontalAlignment="Left" />
             <TextBlock Text="Mot de passe:" Margin="5" VerticalAlignment="Center" Visibility="Collapsed" x:Name="PasswordLabel"/>
             <TextBox x:Name="PasswordTextBox" Margin="5"  IsReadOnly="True" Visibility="Collapsed"/>
-            <Button Content="Fermer" Margin="5" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" />
         </StackPanel>
     </Grid>
 </Window>

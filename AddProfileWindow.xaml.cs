@@ -41,6 +41,8 @@ namespace YnovPassword
                     }
                 }
 
+                // Assurez-vous que la propriété Nom de la classe Dossiers est définie
+                DossierComboBox.DisplayMemberPath = "Nom"; // Spécifiez ici le nom de la propriété dans Dossiers à afficher
                 DossierComboBox.ItemsSource = _dossiers;
                 if (_dossiers.Count > 0)
                 {

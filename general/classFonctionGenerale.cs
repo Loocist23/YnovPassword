@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using YnovPassword.general;
-using DllYnov;
+using DLLYnov;
 
 namespace YnovPassword.general
 {

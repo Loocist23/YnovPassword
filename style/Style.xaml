@@ -2,40 +2,43 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Define global brushes -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#555555"/>
-    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#1C00CC"/>
-    <SolidColorBrush x:Key="PrimaryDarkerBrush" Color="#1800B2"/>
-    <SolidColorBrush x:Key="AlertBrush" Color="#EE0022"/>
-    <SolidColorBrush x:Key="AlertDarkBrush" Color="#CC001F"/>
-    <SolidColorBrush x:Key="AlertDarkerBrush" Color="#B2001C"/>
-    <SolidColorBrush x:Key="LightGrayBrush" Color="LightGray"/>
-    <SolidColorBrush x:Key="DarkGrayBrush" Color="#D3D3D3"/>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#6200EE"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#3700B3"/>
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="#BB86FC"/>
+    <SolidColorBrush x:Key="AlertBrush" Color="#B00020"/>
+    <SolidColorBrush x:Key="AlertDarkBrush" Color="#7A0013"/>
+    <SolidColorBrush x:Key="LightGrayBrush" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="#E0E0E0"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="BlackBrush" Color="#000000"/>
-    <SolidColorBrush x:Key="RowAlternateBrush" Color="#F2F2F2"/>
+    <SolidColorBrush x:Key="GrayBrush" Color="#9E9E9E"/>
+    <SolidColorBrush x:Key="RowAlternateBrush" Color="#F1F1F1"/>
 
     <!-- Primary Button Style -->
     <Style TargetType="Button" x:Key="Btn-primary">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="Width" Value="85"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Width" Value="100"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="5">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="20" Padding="10">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
+                        </Border.Effect>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PrimaryDarkerBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -48,23 +51,26 @@
         <Setter Property="Background" Value="{StaticResource AlertBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource AlertBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="Width" Value="85"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Width" Value="100"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="5">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="20" Padding="10">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
+                        </Border.Effect>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource AlertDarkBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource AlertDarkerBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource AlertBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -77,26 +83,26 @@
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="Width" Value="63"/>
-        <Setter Property="Grid.ColumnSpan" Value="2"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Width" Value="80"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="5">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" CornerRadius="15" Padding="5">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="Gray" Opacity="0.5"/>
+                        </Border.Effect>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PrimaryDarkerBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -104,11 +110,42 @@
         </Setter>
     </Style>
 
-    <!-- Frame Style -->
-    <Style TargetType="Frame" x:Key="Frame-grisClair">
+    <!-- TextBox Style -->
+    <Style TargetType="TextBox" x:Key="TextBoxStyle">
         <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BlackBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DarkGrayBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="5" Padding="5">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- PasswordBox Style -->
+    <Style TargetType="PasswordBox" x:Key="PasswordBoxStyle">
+        <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DarkGrayBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="5" Padding="5">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- DataGrid Style -->

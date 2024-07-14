@@ -40,6 +40,15 @@ namespace YnovPassword
 
             using (var context = new DataContext())
             {
+                // Vérifier si un dossier avec le même nom existe déjà ou s'il s'agit de YNOVPASSWORD avec toute variation d'orthographe
+                bool dossierExists = context.Dossiers.Any(d => d.Nom.Equals(dossierName, StringComparison.OrdinalIgnoreCase)) ||
+                                     IsYnovPasswordVariant(dossierName);
+                if (dossierExists)
+                {
+                    MessageBox.Show("Un dossier avec ce nom existe déjà ou est réservé. Veuillez choisir un autre nom.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 var newDossier = new Dossiers
                 {
                     ID = Guid.NewGuid(),
@@ -58,8 +67,8 @@ namespace YnovPassword
         {
             if (sender is Button button && button.Tag is Dossiers dossier)
             {
-                // Empêcher la modification du dossier YNOVPASSWORD
-                if (dossier.Nom == classConstantes.sTypeprofilConnection_Nom_YnovPassword)
+                // Empêcher la modification du dossier YNOVPASSWORD avec toute variation d'orthographe
+                if (IsYnovPasswordVariant(dossier.Nom))
                 {
                     MessageBox.Show("Le dossier YNOVPASSWORD ne peut pas être modifié.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -77,6 +86,15 @@ namespace YnovPassword
                     var dossierToUpdate = context.Dossiers.Find(dossier.ID);
                     if (dossierToUpdate != null)
                     {
+                        // Vérifier si un dossier avec le nouveau nom existe déjà ou s'il s'agit de YNOVPASSWORD avec toute variation d'orthographe
+                        bool dossierExists = context.Dossiers.Any(d => d.Nom.Equals(newName, StringComparison.OrdinalIgnoreCase) && d.ID != dossier.ID) ||
+                                             IsYnovPasswordVariant(newName);
+                        if (dossierExists)
+                        {
+                            MessageBox.Show("Un dossier avec ce nom existe déjà ou est réservé. Veuillez choisir un autre nom.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
                         dossierToUpdate.Nom = newName;
                         context.SaveChanges();
                     }
@@ -91,8 +109,8 @@ namespace YnovPassword
         {
             if (sender is Button button && button.Tag is Dossiers dossier)
             {
-                // Empêcher la suppression du dossier YNOVPASSWORD
-                if (dossier.Nom == classConstantes.sTypeprofilConnection_Nom_YnovPassword)
+                // Empêcher la suppression du dossier YNOVPASSWORD avec toute variation d'orthographe
+                if (IsYnovPasswordVariant(dossier.Nom))
                 {
                     MessageBox.Show("Le dossier YNOVPASSWORD ne peut pas être supprimé.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -159,6 +177,14 @@ namespace YnovPassword
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private bool IsYnovPasswordVariant(string dossierName)
+        {
+            return dossierName.Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase) ||
+                   dossierName.Replace(" ", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase) ||
+                   dossierName.Replace("-", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase) ||
+                   dossierName.Replace("_", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

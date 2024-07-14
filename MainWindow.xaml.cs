@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using YnovPassword.modele;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using YnovPassword.general;
 
 namespace YnovPassword
@@ -12,6 +11,7 @@ namespace YnovPassword
     public partial class MainWindow : Window
     {
         private ObservableCollection<ProfilsData> _profilsData = new ObservableCollection<ProfilsData>();
+        private ObservableCollection<ProfilsData> _filteredProfilsData = new ObservableCollection<ProfilsData>();
         private ProfilsData _selectedProfile;
 
         public MainWindow()
@@ -26,8 +26,26 @@ namespace YnovPassword
             {
                 var userId = App.LoggedInUserId;
                 _profilsData = new ObservableCollection<ProfilsData>(context.ProfilsData.Where(p => p.UtilisateursID == userId).ToList());
-                dataGridProfils.ItemsSource = _profilsData;
+                _filteredProfilsData = new ObservableCollection<ProfilsData>(_profilsData);
+                dataGridProfils.ItemsSource = _filteredProfilsData;
             }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filter = SearchTextBox.Text.Trim().ToLower();
+            if (string.IsNullOrEmpty(filter))
+            {
+                _filteredProfilsData = new ObservableCollection<ProfilsData>(_profilsData);
+            }
+            else
+            {
+                _filteredProfilsData = new ObservableCollection<ProfilsData>(
+                    _profilsData.Where(p =>
+                        p.Nom.ToLower().Contains(filter) ||
+                        p.URL.ToLower().Contains(filter)));
+            }
+            dataGridProfils.ItemsSource = _filteredProfilsData;
         }
 
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
@@ -40,9 +58,10 @@ namespace YnovPassword
         {
             if (sender is Button button && button.Tag is ProfilsData item)
             {
-                if (item.UtilisateursID == App.LoggedInUserId)
+                // Vérifier si l'élément est le premier dans la liste
+                if (_profilsData.FirstOrDefault()?.ID == item.ID)
                 {
-                    MessageBox.Show("Vous ne pouvez pas supprimer votre propre profil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Vous ne pouvez pas supprimer le premier profil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -51,10 +70,10 @@ namespace YnovPassword
                     context.ProfilsData.Remove(item);
                     context.SaveChanges();
                     _profilsData.Remove(item);
+                    _filteredProfilsData.Remove(item);
                 }
             }
         }
-
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,11 +82,10 @@ namespace YnovPassword
                 EditProfileWindow editProfileWindow = new EditProfileWindow(item);
                 if (editProfileWindow.ShowDialog() == true)
                 {
-                    dataGridProfils.Items.Refresh();
+                    LoadProfilsData();
                 }
             }
         }
-
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -80,6 +98,7 @@ namespace YnovPassword
         private void AddProfileWindow_ProfileAdded(object sender, ProfilsData e)
         {
             _profilsData.Add(e);
+            _filteredProfilsData.Add(e);
             dataGridProfils.Items.Refresh();
         }
 
@@ -126,8 +145,5 @@ namespace YnovPassword
                 classFonctionGenerale.GestionErreurLog(ex, "Erreur lors de la division par zéro dans CrashApi_Click", false);
             }
         }
-
-
-
     }
 }

@@ -20,6 +20,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -30,8 +31,11 @@
             <Button Content="+ Ajouter" Margin="5" Style="{StaticResource Btn-primary}" Click="AddButton_Click" />
         </StackPanel>
 
+        <!-- Search bar -->
+        <TextBox x:Name="SearchTextBox" Grid.Row="1" Grid.ColumnSpan="2" Margin="5" Height="30" TextChanged="SearchTextBox_TextChanged" />
+
         <!-- Main content area -->
-        <DataGrid x:Name="dataGridProfils" Grid.ColumnSpan="2" Grid.Row="1" Margin="5" AutoGenerateColumns="False" Style="{StaticResource Grid-grisClair}" SelectionChanged="DataGridProfils_SelectionChanged">
+        <DataGrid x:Name="dataGridProfils" Grid.ColumnSpan="2" Grid.Row="2" Margin="5" AutoGenerateColumns="False" Style="{StaticResource Grid-grisClair}" SelectionChanged="DataGridProfils_SelectionChanged">
             <!-- Define your DataGrid columns here -->
             <DataGrid.Columns>
                 <!-- <DataGridTextColumn Header="ID" Binding="{Binding ID}" /> -->
@@ -54,11 +58,11 @@
         </DataGrid>
 
         <!-- Bottom area for additional controls and information -->
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Content="Fermer" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" HorizontalAlignment="Left" />
             <Button Content="Crash l'APP" Style="{StaticResource Btn-primary}" Click="CrashApi_Click" HorizontalAlignment="Left" />
             <TextBlock Text="Mot de passe:" Margin="5" VerticalAlignment="Center" Visibility="Collapsed" x:Name="PasswordLabel"/>
-            <TextBox x:Name="PasswordTextBox" Margin="5"  IsReadOnly="True" Visibility="Collapsed"/>
+            <TextBox x:Name="PasswordTextBox" Margin="5" IsReadOnly="True" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Window>

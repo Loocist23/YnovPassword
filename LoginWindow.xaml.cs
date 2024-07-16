@@ -14,20 +14,20 @@ namespace YnovPassword
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string username = this.txtUsername.Text.Trim();
-            string password = this.txtPassword.Password.Trim();
+            string sUsername = this.txtUsername.Text.Trim();
+            string sPassword = this.txtPassword.Password.Trim();
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(sUsername) || string.IsNullOrEmpty(sPassword))
             {
                 MessageBox.Show("Le nom d'utilisateur et le mot de passe ne peuvent pas être vides.", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (ValidateUser(username, password, out Guid userId))
+            if (ValidateUser(sUsername, sPassword, out Guid gUserId))
             {
-                App.LoggedInUserId = userId; // Stocker l'ID utilisateur après une connexion réussie
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
+                App.gLoggedInUserId = gUserId; // Stocker l'ID utilisateur après une connexion réussie
+                MainWindow mwMainWindow = new MainWindow();
+                mwMainWindow.Show();
                 this.Close();
             }
             else
@@ -36,33 +36,33 @@ namespace YnovPassword
             }
         }
 
-        private bool ValidateUser(string username, string password, out Guid userId)
+        private bool ValidateUser(string sUsername, string sPassword, out Guid gUserId)
         {
-            userId = Guid.Empty;
-            bool isUserValid;
-            using (DataContext dataContext = new DataContext())
+            gUserId = Guid.Empty;
+            bool bIsUserValid;
+            using (DataContext dcDataContext = new DataContext())
             {
-                var user = dataContext.Utilisateurs.FirstOrDefault(u =>
-                    u.Login == username &&
-                    u.ProfilsData.Single().EncryptedPassword == classFonctionGenerale.CrypterChaine(password));
+                var uUser = dcDataContext.Utilisateurs.FirstOrDefault(u =>
+                    u.Login == sUsername &&
+                    u.ProfilsData.Single().EncryptedPassword == classFonctionGenerale.CrypterChaine(sPassword));
 
-                if (user != null)
+                if (uUser != null)
                 {
-                    isUserValid = true;
-                    userId = user.ID; // Récupérer l'ID utilisateur
+                    bIsUserValid = true;
+                    gUserId = uUser.ID; // Récupérer l'ID utilisateur
                 }
                 else
                 {
-                    isUserValid = false;
+                    bIsUserValid = false;
                 }
             }
-            return isUserValid;
+            return bIsUserValid;
         }
 
         private void CreateUserButton_Click(object sender, RoutedEventArgs e)
         {
-            NewUserWindow newUserWindow = new NewUserWindow();
-            newUserWindow.ShowDialog();
+            NewUserWindow nuNewUserWindow = new NewUserWindow();
+            nuNewUserWindow.ShowDialog();
         }
 
         private void OpenHelp_Click(object sender, RoutedEventArgs e)

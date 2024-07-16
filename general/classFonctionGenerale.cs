@@ -9,41 +9,41 @@ namespace YnovPassword.general
 {
     public abstract class classFonctionGenerale
     {
-        public static void GestionErreurLog(Exception? ex, string? MessageLibre, bool boolFermeture)
+        public static void GestionErreurLog(Exception? ex, string? sMessageLibre, bool bFermeture)
         {
-            string MessageFinal = "";
-            if (!string.IsNullOrEmpty(MessageLibre))
+            string sMessageFinal = "";
+            if (!string.IsNullOrEmpty(sMessageLibre))
             {
-                MessageFinal += MessageLibre;
+                sMessageFinal += sMessageLibre;
             }
             if (ex != null)
             {
-                MessageFinal += "\r\n Une Erreur a eu lieu : " + ex.ToString();
-                CreerFichierJournalErreurImprevisible(MessageFinal);
-                EcrireJournalEvenementsWindows(MessageFinal);
+                sMessageFinal += "\r\n Une Erreur a eu lieu : " + ex.ToString();
+                CreerFichierJournalErreurImprevisible(sMessageFinal);
+                EcrireJournalEvenementsWindows(sMessageFinal);
             }
 
-            MessageBox.Show(MessageFinal, "Erreur Rencontrée", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(sMessageFinal, "Erreur Rencontrée", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            if (boolFermeture)
+            if (bFermeture)
             {
                 Application.Current.Shutdown();
             }
         }
 
-        public static void CreerFichierJournalErreurImprevisible(string messageErreur)
+        public static void CreerFichierJournalErreurImprevisible(string sMessageErreur)
         {
             try
             {
-                string machineName = Environment.MachineName;
-                string logFileName = $"{machineName}_{DateTime.Now:yyyy-MM-dd}.log";
-                string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", logFileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(logFilePath));
+                string sMachineName = Environment.MachineName;
+                string sLogFileName = $"{sMachineName}_{DateTime.Now:yyyy-MM-dd}.log";
+                string sLogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", sLogFileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(sLogFilePath));
 
-                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                using (StreamWriter swWriter = new StreamWriter(sLogFilePath, true))
                 {
-                    writer.WriteLine($"[{DateTime.Now}] {messageErreur}");
-                    writer.WriteLine("--------------------------------------------------");
+                    swWriter.WriteLine($"[{DateTime.Now}] {sMessageErreur}");
+                    swWriter.WriteLine("--------------------------------------------------");
                 }
             }
             catch (Exception e)
@@ -52,19 +52,19 @@ namespace YnovPassword.general
             }
         }
 
-        public static void EcrireJournalEvenementsWindows(string messageErreur)
+        public static void EcrireJournalEvenementsWindows(string sMessageErreur)
         {
             try
             {
-                string eventSource = ".NET Runtime";
-                string logName = "Application";
+                string sEventSource = ".NET Runtime";
+                string sLogName = "Application";
 
-                if (!EventLog.SourceExists(eventSource))
+                if (!EventLog.SourceExists(sEventSource))
                 {
-                    EventLog.CreateEventSource(eventSource, logName);
+                    EventLog.CreateEventSource(sEventSource, sLogName);
                 }
 
-                EventLog.WriteEntry(eventSource, messageErreur, EventLogEntryType.Error, 1000);
+                EventLog.WriteEntry(sEventSource, sMessageErreur, EventLogEntryType.Error, 1000);
             }
             catch (Exception e)
             {
@@ -72,11 +72,11 @@ namespace YnovPassword.general
             }
         }
 
-        public static string? CrypterChaine(string sPar_ChaineACrypter)
+        public static string? CrypterChaine(string sParChaineACrypter)
         {
             try
             {
-                return Cryptage.DLLCrypterChaine(sPar_ChaineACrypter);
+                return Cryptage.DLLCrypterChaine(sParChaineACrypter);
             }
             catch (Exception ex)
             {
@@ -85,11 +85,11 @@ namespace YnovPassword.general
             }
         }
 
-        public static string? DecrypterChaine(string sPar_ChaineCryptee)
+        public static string? DecrypterChaine(string sParChaineCryptee)
         {
             try
             {
-                return Cryptage.DLLDecrypterChaine(sPar_ChaineCryptee);
+                return Cryptage.DLLDecrypterChaine(sParChaineCryptee);
             }
             catch (Exception ex)
             {
@@ -98,42 +98,42 @@ namespace YnovPassword.general
             }
         }
 
-        public static bool ValiderMotdepasse(string motDePasse, string confirmerMotDePasse)
+        public static bool ValiderMotdepasse(string sMotDePasse, string sConfirmerMotDePasse)
         {
-            return motDePasse == confirmerMotDePasse && motDePasse.Length >= 8;
+            return sMotDePasse == sConfirmerMotDePasse && sMotDePasse.Length >= 8;
         }
 
-        public static void CreerSuperAdmin(MigrationBuilder oLocal_migrationBuilder)
+        public static void CreerSuperAdmin(MigrationBuilder mbMigrationBuilder)
         {
-            Guid gLocal_IdUtilisateur = Guid.NewGuid();
-            Guid gLocal_IdDossier = Guid.NewGuid();
-            Guid gLocal_IdProfilsData = Guid.NewGuid();
-            string sLocal_PasswordSuperAdmin = "";
+            Guid gIdUtilisateur = Guid.NewGuid();
+            Guid gIdDossier = Guid.NewGuid();
+            Guid gIdProfilsData = Guid.NewGuid();
+            string sPasswordSuperAdmin = "";
 
-            //Insertion des valeurs par defaut
-            //On crypte le mots de passe de l'utilisateur 
-            sLocal_PasswordSuperAdmin = classFonctionGenerale.CrypterChaine(classConstantes.sUtilisateur_Password_Superadmin);
+            //Insertion des valeurs par défaut
+            //On crypte le mot de passe de l'utilisateur 
+            sPasswordSuperAdmin = classFonctionGenerale.CrypterChaine(classConstantes.sUtilisateur_Password_Superadmin);
 
-            oLocal_migrationBuilder.InsertData("Utilisateurs", new[] { "ID", "Nom", "Login", "Email" }, new object[] { gLocal_IdUtilisateur, classConstantes.sUtilisateur_Nom_Superadmin, classConstantes.sUtilisateur_Login_Superadmin, "" });
+            mbMigrationBuilder.InsertData("Utilisateurs", new[] { "ID", "Nom", "Login", "Email" }, new object[] { gIdUtilisateur, classConstantes.sUtilisateur_Nom_Superadmin, classConstantes.sUtilisateur_Login_Superadmin, "" });
 
-            oLocal_migrationBuilder.InsertData("Dossiers", new[] { "ID", "Nom" }, new object[] { gLocal_IdDossier, classConstantes.sTypeprofilConnection_Nom_YnovPassword });
+            mbMigrationBuilder.InsertData("Dossiers", new[] { "ID", "Nom" }, new object[] { gIdDossier, classConstantes.sTypeprofilConnection_Nom_YnovPassword });
 
-            oLocal_migrationBuilder.InsertData("ProfilsData", new[] { "ID", "DossiersID", "UtilisateursID", "Nom", "URL", "Login", "EncryptedPassword" }, new object[] { gLocal_IdProfilsData, gLocal_IdDossier, gLocal_IdUtilisateur, classConstantes.sProfilConection_Nom_YnovPassword, "", classConstantes.sUtilisateur_Nom_Superadmin, sLocal_PasswordSuperAdmin });
+            mbMigrationBuilder.InsertData("ProfilsData", new[] { "ID", "DossiersID", "UtilisateursID", "Nom", "URL", "Login", "EncryptedPassword" }, new object[] { gIdProfilsData, gIdDossier, gIdUtilisateur, classConstantes.sProfilConection_Nom_YnovPassword, "", classConstantes.sUtilisateur_Nom_Superadmin, sPasswordSuperAdmin });
         }
 
         public static void OpenHelp()
         {
             try
             {
-                string helpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "YnovPasswordHelp.chm");
-                if (File.Exists(helpFilePath))
+                string sHelpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "YnovPasswordHelp.chm");
+                if (File.Exists(sHelpFilePath))
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo
+                    ProcessStartInfo psiProcessStartInfo = new ProcessStartInfo
                     {
-                        FileName = helpFilePath,
+                        FileName = sHelpFilePath,
                         UseShellExecute = true
                     };
-                    Process.Start(psi);
+                    Process.Start(psiProcessStartInfo);
                 }
                 else
                 {

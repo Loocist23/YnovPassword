@@ -7,36 +7,36 @@ namespace YnovPassword
 {
     public partial class EditProfileWindow : Window
     {
-        private ProfilsData _profil;
+        private ProfilsData _pdProfil;
 
-        public EditProfileWindow(ProfilsData profil)
+        public EditProfileWindow(ProfilsData pdProfil)
         {
             InitializeComponent();
-            _profil = profil;
+            _pdProfil = pdProfil;
             LoadProfileData();
         }
 
         private void LoadProfileData()
         {
-            NomTextBox.Text = _profil.Nom;
-            URLTextBox.Text = _profil.URL;
-            LoginTextBox.Text = _profil.Login;
-            PasswordTextBox.Password = classFonctionGenerale.DecrypterChaine(_profil.EncryptedPassword);
+            NomTextBox.Text = _pdProfil.Nom;
+            URLTextBox.Text = _pdProfil.URL;
+            LoginTextBox.Text = _pdProfil.Login;
+            PasswordTextBox.Password = classFonctionGenerale.DecrypterChaine(_pdProfil.EncryptedPassword);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                _profil.Nom = NomTextBox.Text;
-                _profil.URL = URLTextBox.Text;
-                _profil.Login = LoginTextBox.Text;
-                _profil.EncryptedPassword = classFonctionGenerale.CrypterChaine(PasswordTextBox.Password);
+                _pdProfil.Nom = NomTextBox.Text;
+                _pdProfil.URL = URLTextBox.Text;
+                _pdProfil.Login = LoginTextBox.Text;
+                _pdProfil.EncryptedPassword = classFonctionGenerale.CrypterChaine(PasswordTextBox.Password);
 
-                using (var context = new DataContext())
+                using (var dcContext = new DataContext())
                 {
-                    context.ProfilsData.Update(_profil);
-                    context.SaveChanges();
+                    dcContext.ProfilsData.Update(_pdProfil);
+                    dcContext.SaveChanges();
                 }
 
                 MessageBox.Show("Profil mis à jour avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -57,10 +57,10 @@ namespace YnovPassword
 
         private void GeneratePasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            GeneratePasswordWindow generatePasswordWindow = new GeneratePasswordWindow();
-            if (generatePasswordWindow.ShowDialog() == true)
+            GeneratePasswordWindow gpGeneratePasswordWindow = new GeneratePasswordWindow();
+            if (gpGeneratePasswordWindow.ShowDialog() == true)
             {
-                PasswordTextBox.Password = generatePasswordWindow.GeneratedPassword;
+                PasswordTextBox.Password = gpGeneratePasswordWindow.sGeneratedPassword;
             }
         }
 

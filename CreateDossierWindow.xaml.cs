@@ -7,7 +7,7 @@ namespace YnovPassword
 {
     public partial class CreateDossierWindow : Window
     {
-        public Dossiers? CreatedDossier { get; private set; }
+        public Dossiers? dCreatedDossier { get; private set; }
 
         public CreateDossierWindow()
         {
@@ -16,23 +16,23 @@ namespace YnovPassword
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            string dossierName = DossierNameTextBox.Text.Trim();
-            if (string.IsNullOrEmpty(dossierName))
+            string sDossierName = DossierNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(sDossierName))
             {
                 MessageBox.Show("Le nom du dossier ne peut pas être vide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            using (var context = new DataContext())
+            using (var dcContext = new DataContext())
             {
-                var newDossier = new Dossiers
+                var dNewDossier = new Dossiers
                 {
                     ID = Guid.NewGuid(),
-                    Nom = dossierName
+                    Nom = sDossierName
                 };
-                context.Dossiers.Add(newDossier);
-                context.SaveChanges();
-                CreatedDossier = newDossier;
+                dcContext.Dossiers.Add(dNewDossier);
+                dcContext.SaveChanges();
+                dCreatedDossier = dNewDossier;
             }
 
             MessageBox.Show("Dossier créé avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);

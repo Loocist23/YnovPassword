@@ -9,12 +9,12 @@ namespace YnovPassword
 {
     public partial class GeneratePasswordWindow : Window
     {
-        public string GeneratedPassword { get; private set; }
+        public string sGeneratedPassword { get; private set; }
 
         public GeneratePasswordWindow()
         {
             InitializeComponent();
-            GeneratedPassword = string.Empty; // Initialize GeneratedPassword
+            sGeneratedPassword = string.Empty; // Initialize sGeneratedPassword
             LengthSlider.ValueChanged += LengthSlider_ValueChanged; // Ensure event handler is attached after initialization
             LengthSlider_ValueChanged(null, null); // Initialize the TextBlock with the default slider value
         }
@@ -39,14 +39,14 @@ namespace YnovPassword
             {
                 if (GeneratePassphrase.IsChecked == true)
                 {
-                    GeneratedPassword = GeneratePassphraseMethod((int)LengthSlider.Value);
+                    sGeneratedPassword = GeneratePassphraseMethod((int)LengthSlider.Value);
                 }
                 else
                 {
-                    GeneratedPassword = GeneratePassword((int)LengthSlider.Value, IncludeSpecialChars.IsChecked == true, IncludeNumbers.IsChecked == true);
+                    sGeneratedPassword = GeneratePassword((int)LengthSlider.Value, IncludeSpecialChars.IsChecked == true, IncludeNumbers.IsChecked == true);
                 }
 
-                GeneratedPasswordTextBox.Text = GeneratedPassword;
+                GeneratedPasswordTextBox.Text = sGeneratedPassword;
             }
             catch (InvalidOperationException ex)
             {
@@ -64,41 +64,41 @@ namespace YnovPassword
             this.Close();
         }
 
-        private string GeneratePassword(int length, bool includeSpecialChars, bool includeNumbers)
+        private string GeneratePassword(int iLength, bool bIncludeSpecialChars, bool bIncludeNumbers)
         {
-            const string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const string numbers = "0123456789";
-            const string specialChars = "!@#$%^&*()_-+=<>?";
+            const string sLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string sNumbers = "0123456789";
+            const string sSpecialChars = "!@#$%^&*()_-+=<>?";
 
-            StringBuilder charSet = new StringBuilder(letters);
-            if (includeNumbers)
+            StringBuilder sbCharSet = new StringBuilder(sLetters);
+            if (bIncludeNumbers)
             {
-                charSet.Append(numbers);
+                sbCharSet.Append(sNumbers);
             }
-            if (includeSpecialChars)
+            if (bIncludeSpecialChars)
             {
-                charSet.Append(specialChars);
+                sbCharSet.Append(sSpecialChars);
             }
 
-            Random random = new Random();
-            return new string(Enumerable.Repeat(charSet.ToString(), length).Select(s => s[random.Next(s.Length)]).ToArray());
+            Random rRandom = new Random();
+            return new string(Enumerable.Repeat(sbCharSet.ToString(), iLength).Select(s => s[rRandom.Next(s.Length)]).ToArray());
         }
 
-        private string GeneratePassphraseMethod(int wordCount)
+        private string GeneratePassphraseMethod(int iWordCount)
         {
-            using (var context = new DataContext())
+            using (var dcContext = new DataContext())
             {
-                var words = context.Dictionnaires.Select(d => d.Mot).ToList();
-                if (words.Count < wordCount)
+                var lwWords = dcContext.Dictionnaires.Select(d => d.Mot).ToList();
+                if (lwWords.Count < iWordCount)
                 {
                     throw new InvalidOperationException("Pas assez de mots dans le dictionnaire pour générer une passphrase.");
                 }
 
-                Random random = new Random();
-                var selectedWords = words.OrderBy(x => random.Next()).Take(wordCount).ToArray();
-                var passphrase = string.Join("+", selectedWords) + random.Next(0, 10);
+                Random rRandom = new Random();
+                var lwSelectedWords = lwWords.OrderBy(x => rRandom.Next()).Take(iWordCount).ToArray();
+                var sPassphrase = string.Join("+", lwSelectedWords) + rRandom.Next(0, 10);
 
-                return passphrase;
+                return sPassphrase;
             }
         }
 

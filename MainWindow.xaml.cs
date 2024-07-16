@@ -10,9 +10,9 @@ namespace YnovPassword
 {
     public partial class MainWindow : Window
     {
-        private ObservableCollection<ProfilsData> _profilsData = new ObservableCollection<ProfilsData>();
-        private ObservableCollection<ProfilsData> _filteredProfilsData = new ObservableCollection<ProfilsData>();
-        private ProfilsData _selectedProfile;
+        private ObservableCollection<ProfilsData> _ocProfilsData = new ObservableCollection<ProfilsData>();
+        private ObservableCollection<ProfilsData> _ocFilteredProfilsData = new ObservableCollection<ProfilsData>();
+        private ProfilsData _pdSelectedProfile;
 
         public MainWindow()
         {
@@ -22,50 +22,50 @@ namespace YnovPassword
 
         private void LoadProfilsData()
         {
-            using (var context = new DataContext())
+            using (var dcContext = new DataContext())
             {
-                var userId = App.LoggedInUserId;
-                _profilsData = new ObservableCollection<ProfilsData>(context.ProfilsData.Where(p => p.UtilisateursID == userId).ToList());
-                _filteredProfilsData = new ObservableCollection<ProfilsData>(_profilsData);
-                dataGridProfils.ItemsSource = _filteredProfilsData;
+                var gUserId = App.gLoggedInUserId;
+                _ocProfilsData = new ObservableCollection<ProfilsData>(dcContext.ProfilsData.Where(p => p.UtilisateursID == gUserId).ToList());
+                _ocFilteredProfilsData = new ObservableCollection<ProfilsData>(_ocProfilsData);
+                dataGridProfils.ItemsSource = _ocFilteredProfilsData;
             }
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string filter = SearchTextBox.Text.Trim().ToLower();
-            if (string.IsNullOrEmpty(filter))
+            string sFilter = SearchTextBox.Text.Trim().ToLower();
+            if (string.IsNullOrEmpty(sFilter))
             {
-                _filteredProfilsData = new ObservableCollection<ProfilsData>(_profilsData);
+                _ocFilteredProfilsData = new ObservableCollection<ProfilsData>(_ocProfilsData);
             }
             else
             {
-                _filteredProfilsData = new ObservableCollection<ProfilsData>(
-                    _profilsData.Where(p =>
-                        p.Nom.ToLower().Contains(filter) ||
-                        p.URL.ToLower().Contains(filter)));
+                _ocFilteredProfilsData = new ObservableCollection<ProfilsData>(
+                    _ocProfilsData.Where(p =>
+                        p.Nom.ToLower().Contains(sFilter) ||
+                        p.URL.ToLower().Contains(sFilter)));
             }
-            dataGridProfils.ItemsSource = _filteredProfilsData;
+            dataGridProfils.ItemsSource = _ocFilteredProfilsData;
         }
 
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
-            SettingWindow settingWindow = new SettingWindow();
-            settingWindow.Show();
+            SettingWindow swSettingWindow = new SettingWindow();
+            swSettingWindow.Show();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ProfilsData item)
+            if (sender is Button btnButton && btnButton.Tag is ProfilsData pdItem)
             {
                 if (MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce profil?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    using (var context = new DataContext())
+                    using (var dcContext = new DataContext())
                     {
-                        context.ProfilsData.Remove(item);
-                        context.SaveChanges();
-                        _profilsData.Remove(item);
-                        _filteredProfilsData.Remove(item);
+                        dcContext.ProfilsData.Remove(pdItem);
+                        dcContext.SaveChanges();
+                        _ocProfilsData.Remove(pdItem);
+                        _ocFilteredProfilsData.Remove(pdItem);
                     }
                 }
             }
@@ -74,10 +74,10 @@ namespace YnovPassword
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ProfilsData item)
+            if (sender is Button btnButton && btnButton.Tag is ProfilsData pdItem)
             {
-                EditProfileWindow editProfileWindow = new EditProfileWindow(item);
-                if (editProfileWindow.ShowDialog() == true)
+                EditProfileWindow epwEditProfileWindow = new EditProfileWindow(pdItem);
+                if (epwEditProfileWindow.ShowDialog() == true)
                 {
                     LoadProfilsData();
                 }
@@ -86,16 +86,16 @@ namespace YnovPassword
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            Guid userId = App.LoggedInUserId;
-            AddProfileWindow addProfileWindow = new AddProfileWindow(userId);
-            addProfileWindow.ProfileAdded += AddProfileWindow_ProfileAdded;
-            addProfileWindow.ShowDialog();
+            Guid gUserId = App.gLoggedInUserId;
+            AddProfileWindow apwAddProfileWindow = new AddProfileWindow(gUserId);
+            apwAddProfileWindow.ProfileAdded += AddProfileWindow_ProfileAdded;
+            apwAddProfileWindow.ShowDialog();
         }
 
         private void AddProfileWindow_ProfileAdded(object sender, ProfilsData e)
         {
-            _profilsData.Add(e);
-            _filteredProfilsData.Add(e);
+            _ocProfilsData.Add(e);
+            _ocFilteredProfilsData.Add(e);
             dataGridProfils.Items.Refresh();
         }
 
@@ -106,10 +106,10 @@ namespace YnovPassword
 
         private void ShowPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ProfilsData item)
+            if (sender is Button btnButton && btnButton.Tag is ProfilsData pdItem)
             {
-                _selectedProfile = item;
-                PasswordTextBox.Text = classFonctionGenerale.DecrypterChaine(item.EncryptedPassword);
+                _pdSelectedProfile = pdItem;
+                PasswordTextBox.Text = classFonctionGenerale.DecrypterChaine(pdItem.EncryptedPassword);
                 PasswordLabel.Visibility = Visibility.Visible;
                 PasswordTextBox.Visibility = Visibility.Visible;
             }
@@ -117,9 +117,9 @@ namespace YnovPassword
 
         private void CopyPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ProfilsData item)
+            if (sender is Button btnButton && btnButton.Tag is ProfilsData pdItem)
             {
-                Clipboard.SetText(classFonctionGenerale.DecrypterChaine(item.EncryptedPassword));
+                Clipboard.SetText(classFonctionGenerale.DecrypterChaine(pdItem.EncryptedPassword));
                 MessageBox.Show("Mot de passe copié dans le presse-papiers.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -134,8 +134,8 @@ namespace YnovPassword
         {
             try
             {
-                int? divisor = null; // Définissez une variable nullable qui provoquera une division par zéro
-                int result = 10 / divisor.Value; // Provoque une exception de division par zéro
+                int? iDivisor = null; // Définissez une variable nullable qui provoquera une division par zéro
+                int iResult = 10 / iDivisor.Value; // Provoque une exception de division par zéro
             }
             catch (Exception ex)
             {

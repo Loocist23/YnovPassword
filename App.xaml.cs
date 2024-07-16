@@ -11,21 +11,21 @@ namespace YnovPassword
 {
     public partial class App : Application
     {
-        public static Guid LoggedInUserId { get; set; }
+        public static Guid gLoggedInUserId { get; set; }
 
-        private const string VersionCheckUrl = "http://www.indexld.com/wp-json/ynov/v1/getapp-version";
+        private const string sVersionCheckUrl = "http://www.indexld.com/wp-json/ynov/v1/getapp-version";
 
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             await CheckForUpdate();
 
-            DataContext oLocal_DataContext = null;
+            DataContext dcLocalDataContext = null;
 
             try
             {
-                oLocal_DataContext = new DataContext();
-                oLocal_DataContext.Database.Migrate();
+                dcLocalDataContext = new DataContext();
+                dcLocalDataContext.Database.Migrate();
             }
             catch (Exception ex)
             {
@@ -33,25 +33,25 @@ namespace YnovPassword
             }
 
             // Démarrage de la fenêtre de login après la vérification de mise à jour
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show();
+            LoginWindow lwLoginWindow = new LoginWindow();
+            lwLoginWindow.Show();
         }
 
         private async Task CheckForUpdate()
         {
             try
             {
-                var latestVersion = await GetLatestVersionAsync();
-                var currentVersion = new Version(classConstantes.iBigNumVersion, classConstantes.iSmallNumVersion);
+                var tLatestVersion = await GetLatestVersionAsync();
+                var vCurrentVersion = new Version(classConstantes.iBigNumVersion, classConstantes.iSmallNumVersion);
 
-                if (latestVersion.Item1 > currentVersion)
+                if (tLatestVersion.Item1 > vCurrentVersion)
                 {
-                    var result = MessageBox.Show("Une nouvelle version de l'application est disponible. Voulez-vous la télécharger ?", "Mise à jour disponible", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                    if (result == MessageBoxResult.Yes)
+                    var mResult = MessageBox.Show("Une nouvelle version de l'application est disponible. Voulez-vous la télécharger ?", "Mise à jour disponible", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (mResult == MessageBoxResult.Yes)
                     {
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
-                            FileName = latestVersion.Item2,
+                            FileName = tLatestVersion.Item2,
                             UseShellExecute = true
                         });
                         Application.Current.Shutdown(); // Ferme l'application actuelle
@@ -66,19 +66,19 @@ namespace YnovPassword
 
         private async Task<Tuple<Version, string>> GetLatestVersionAsync()
         {
-            using (HttpClient client = new HttpClient())
+            using (HttpClient hcClient = new HttpClient())
             {
-                HttpResponseMessage response = await client.GetAsync(VersionCheckUrl);
-                response.EnsureSuccessStatusCode();
+                HttpResponseMessage hrResponse = await hcClient.GetAsync(sVersionCheckUrl);
+                hrResponse.EnsureSuccessStatusCode();
 
-                string responseBody = await response.Content.ReadAsStringAsync();
-                JObject json = JObject.Parse(responseBody);
+                string sResponseBody = await hrResponse.Content.ReadAsStringAsync();
+                JObject joJson = JObject.Parse(sResponseBody);
 
-                int majorVersion = int.Parse(json["major_version"].ToString());
-                int minorVersion = int.Parse(json["minor_version"].ToString());
-                string urlCurrentVersion = json["url_current_version"].ToString();
+                int iMajorVersion = int.Parse(joJson["major_version"].ToString());
+                int iMinorVersion = int.Parse(joJson["minor_version"].ToString());
+                string sUrlCurrentVersion = joJson["url_current_version"].ToString();
 
-                return new Tuple<Version, string>(new Version(majorVersion, minorVersion), urlCurrentVersion);
+                return new Tuple<Version, string>(new Version(iMajorVersion, iMinorVersion), sUrlCurrentVersion);
             }
         }
     }

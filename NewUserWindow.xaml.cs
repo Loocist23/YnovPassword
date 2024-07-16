@@ -18,75 +18,75 @@ namespace YnovPassword
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Récupération et trim des valeurs des champs de texte
-            string login = txtLogin.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string nom = txtNom.Text.Trim();
-            string password = txtPassword.Password.Trim();
-            string confirmPassword = txtConfirmPassword.Password.Trim();
+            string sLogin = txtLogin.Text.Trim();
+            string sEmail = txtEmail.Text.Trim();
+            string sNom = txtNom.Text.Trim();
+            string sPassword = txtPassword.Password.Trim();
+            string sConfirmPassword = txtConfirmPassword.Password.Trim();
 
             // Vérification que tous les champs sont remplis
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(email) ||
-                string.IsNullOrEmpty(nom) || string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(confirmPassword))
+            if (string.IsNullOrEmpty(sLogin) || string.IsNullOrEmpty(sEmail) ||
+                string.IsNullOrEmpty(sNom) || string.IsNullOrEmpty(sPassword) ||
+                string.IsNullOrEmpty(sConfirmPassword))
             {
                 MessageBox.Show("Tous les champs doivent être remplis.", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // Validation des mots de passe (doivent correspondre et être d'une longueur minimale de 8 caractères)
-            if (!classFonctionGenerale.ValiderMotdepasse(password, confirmPassword))
+            if (!classFonctionGenerale.ValiderMotdepasse(sPassword, sConfirmPassword))
             {
                 MessageBox.Show("Les mots de passe ne correspondent pas ou ne respectent pas les critères de sécurité (minimum 8 caractères).", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // Utilisation d'un contexte de base de données
-            using (var context = new DataContext())
+            using (var dcContext = new DataContext())
             {
                 // Vérifiez si le dossier existe
-                var dossier = context.Dossiers.FirstOrDefault(d => d.Nom == classConstantes.sTypeprofilConnection_Nom_YnovPassword);
+                var dDossier = dcContext.Dossiers.FirstOrDefault(d => d.Nom == classConstantes.sTypeprofilConnection_Nom_YnovPassword);
 
                 // Si le dossier n'existe pas, affichez un message d'erreur et arrêtez l'opération
-                if (dossier == null)
+                if (dDossier == null)
                 {
                     MessageBox.Show("Le dossier spécifié n'existe pas.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 // Création de l'utilisateur
-                Guid userId = Guid.NewGuid(); // Génération d'un nouvel ID pour l'utilisateur
-                string encryptedPassword = classFonctionGenerale.CrypterChaine(password); // Cryptage du mot de passe
+                Guid gUserId = Guid.NewGuid(); // Génération d'un nouvel ID pour l'utilisateur
+                string sEncryptedPassword = classFonctionGenerale.CrypterChaine(sPassword); // Cryptage du mot de passe
 
                 // Création d'une nouvelle instance de l'utilisateur
-                var newUser = new Utilisateurs
+                var uNewUser = new Utilisateurs
                 {
-                    ID = userId,
-                    Nom = nom,
-                    Login = login,
-                    Email = email,
+                    ID = gUserId,
+                    Nom = sNom,
+                    Login = sLogin,
+                    Email = sEmail,
                     // Ajoutez d'autres propriétés si nécessaire
                 };
 
                 // Ajout de l'utilisateur au contexte
-                context.Utilisateurs.Add(newUser);
+                dcContext.Utilisateurs.Add(uNewUser);
 
                 // Création du profil associé à l'utilisateur
-                var newProfilsData = new ProfilsData
+                var pdNewProfilsData = new ProfilsData
                 {
                     ID = Guid.NewGuid(), // Génération d'un nouvel ID pour le profil
-                    UtilisateursID = userId, // Association de l'utilisateur
-                    DossiersID = dossier.ID, // Utilisation de l'ID du dossier existant
-                    Nom = nom, // Nom du profil (ajustez selon votre besoin)
+                    UtilisateursID = gUserId, // Association de l'utilisateur
+                    DossiersID = dDossier.ID, // Utilisation de l'ID du dossier existant
+                    Nom = sNom, // Nom du profil (ajustez selon votre besoin)
                     URL = "", // URL du profil (ajustez selon votre besoin)
-                    Login = login,
-                    EncryptedPassword = encryptedPassword // Mot de passe crypté
+                    Login = sLogin,
+                    EncryptedPassword = sEncryptedPassword // Mot de passe crypté
                 };
 
                 // Ajout du profil au contexte
-                context.ProfilsData.Add(newProfilsData);
+                dcContext.ProfilsData.Add(pdNewProfilsData);
 
                 // Sauvegarde des changements dans la base de données
-                context.SaveChanges();
+                dcContext.SaveChanges();
             }
 
             // Affichage d'un message de succès et fermeture de la fenêtre
@@ -99,6 +99,7 @@ namespace YnovPassword
         {
             this.Close();
         }
+
         private void OpenHelp_Click(object sender, RoutedEventArgs e)
         {
             classFonctionGenerale.OpenHelp();

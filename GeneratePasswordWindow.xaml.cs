@@ -5,34 +5,41 @@ using System.Windows;
 using YnovPassword.general;
 using YnovPassword.modele;
 
+// Déclaration de l'espace de noms 'YnovPassword'
 namespace YnovPassword
 {
+    // Déclaration partielle de la classe GeneratePasswordWindow héritant de Window
     public partial class GeneratePasswordWindow : Window
     {
+        // Propriété pour stocker le mot de passe généré
         public string sGeneratedPassword { get; private set; }
 
+        // Constructeur de la classe GeneratePasswordWindow
         public GeneratePasswordWindow()
         {
             InitializeComponent();
-            sGeneratedPassword = string.Empty; // Initialize sGeneratedPassword
-            LengthSlider.ValueChanged += LengthSlider_ValueChanged; // Ensure event handler is attached after initialization
-            LengthSlider_ValueChanged(null, null); // Initialize the TextBlock with the default slider value
+            sGeneratedPassword = string.Empty; // Initialiser sGeneratedPassword
+            LengthSlider.ValueChanged += LengthSlider_ValueChanged; // Associer le gestionnaire d'événements après l'initialisation
+            LengthSlider_ValueChanged(null, null); // Initialiser le TextBlock avec la valeur par défaut du slider
         }
 
+        // Méthode appelée lorsque la case à cocher GeneratePassphrase est cochée
         private void GeneratePassphrase_Checked(object sender, RoutedEventArgs e)
         {
             LengthSlider.Minimum = 3;
             LengthSlider.Maximum = 16;
-            LengthSlider.Value = 4; // default passphrase length
+            LengthSlider.Value = 4; // Longueur par défaut de la passphrase
         }
 
+        // Méthode appelée lorsque la case à cocher GeneratePassphrase est décochée
         private void GeneratePassphrase_Unchecked(object sender, RoutedEventArgs e)
         {
             LengthSlider.Minimum = 8;
             LengthSlider.Maximum = 256;
-            LengthSlider.Value = 16; // default password length
+            LengthSlider.Value = 16; // Longueur par défaut du mot de passe
         }
 
+        // Méthode appelée lors du clic sur le bouton Générer
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -58,12 +65,14 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lors du clic sur le bouton Utiliser ce mot de passe
         private void UsePasswordButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
+        // Méthode pour générer un mot de passe
         private string GeneratePassword(int iLength, bool bIncludeSpecialChars, bool bIncludeNumbers)
         {
             const string sLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -84,6 +93,7 @@ namespace YnovPassword
             return new string(Enumerable.Repeat(sbCharSet.ToString(), iLength).Select(s => s[rRandom.Next(s.Length)]).ToArray());
         }
 
+        // Méthode pour générer une passphrase
         private string GeneratePassphraseMethod(int iWordCount)
         {
             using (var dcContext = new DataContext())
@@ -102,6 +112,7 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lorsque la valeur du slider change
         private void LengthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (PasswordLengthTextBlock != null)
@@ -109,6 +120,8 @@ namespace YnovPassword
                 PasswordLengthTextBlock.Text = LengthSlider.Value.ToString("N0");
             }
         }
+
+        // Méthode appelée lors du clic sur le bouton d'aide
         private void OpenHelp_Click(object sender, RoutedEventArgs e)
         {
             classFonctionGenerale.OpenHelp();

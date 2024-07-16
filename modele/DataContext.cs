@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Déclaration de l'espace de noms 'YnovPassword.modele'
 namespace YnovPassword.modele
 {
     /// <summary>
@@ -13,20 +14,21 @@ namespace YnovPassword.modele
     class DataContext : DbContext
     {
         /// <summary>
-        /// Evènement permettant de définir le nom de la base de données utilisés/Créée dans le contexte
+        /// Évènement permettant de définir le nom de la base de données utilisée/créée dans le contexte
         /// </summary>
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // Configuration de la source de données pour utiliser une base de données SQLite
                 optionsBuilder.UseSqlite("Data Source = YnovPassword.db");
             }
         }
-        
-        //Lignes déclarant la génération des tables de la base de donnée
+
+        // Lignes déclarant la génération des tables de la base de données
         public DbSet<Utilisateurs> Utilisateurs { get; set; }
-        public DbSet<Dossiers> Dossiers { get; set;}
+        public DbSet<Dossiers> Dossiers { get; set; }
         public DbSet<Dictionnaire> Dictionnaires { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
         public DbSet<ProfilsData> ProfilsData { get; set; }

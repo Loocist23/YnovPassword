@@ -4,8 +4,10 @@ using System.Windows;
 using YnovPassword.general;
 using YnovPassword.modele;
 
+// Déclaration de l'espace de noms 'YnovPassword'
 namespace YnovPassword
 {
+    // Déclaration partielle de la classe NewUserWindow héritant de Window
     public partial class NewUserWindow : Window
     {
         // Constructeur de la fenêtre NewUserWindow
@@ -100,6 +102,7 @@ namespace YnovPassword
             this.Close();
         }
 
+        // Gestionnaire d'événements pour le bouton d'aide
         private void OpenHelp_Click(object sender, RoutedEventArgs e)
         {
             classFonctionGenerale.OpenHelp();

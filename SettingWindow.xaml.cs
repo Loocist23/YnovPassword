@@ -8,18 +8,23 @@ using System.Collections.ObjectModel;
 using YnovPassword.general;
 using YnovPassword.modele;
 
+// Déclaration de l'espace de noms 'YnovPassword'
 namespace YnovPassword
 {
+    // Déclaration partielle de la classe SettingWindow héritant de Window
     public partial class SettingWindow : Window
     {
+        // Collection observable pour les dossiers
         private ObservableCollection<Dossiers> _ocDossiers;
 
+        // Constructeur de la fenêtre SettingWindow
         public SettingWindow()
         {
             InitializeComponent();
             LoadDossiers();
         }
 
+        // Méthode pour charger les dossiers
         private void LoadDossiers()
         {
             using (var dcContext = new DataContext())
@@ -29,6 +34,7 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lors du clic sur le bouton de création de dossier
         private void CreateDossier_Click(object sender, RoutedEventArgs e)
         {
             string sDossierName = txtNewDossierName.Text.Trim();
@@ -63,6 +69,7 @@ namespace YnovPassword
             MessageBox.Show("Dossier créé avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        // Méthode appelée lors du clic sur le bouton de modification de dossier
         private void EditDossier_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btnButton && btnButton.Tag is Dossiers dDossier)
@@ -105,6 +112,7 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lors du clic sur le bouton de suppression de dossier
         private void DeleteDossier_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btnButton && btnButton.Tag is Dossiers dDossier)
@@ -146,6 +154,7 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lors du clic sur le bouton d'importation de dictionnaire
         private void ImportDictionary_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofdOpenFileDialog = new OpenFileDialog
@@ -174,11 +183,13 @@ namespace YnovPassword
             }
         }
 
+        // Méthode appelée lors du clic sur le bouton de fermeture
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        // Méthode pour vérifier si le nom du dossier est une variante de YNOVPASSWORD
         private bool IsYnovPasswordVariant(string sDossierName)
         {
             return sDossierName.Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase) ||
@@ -187,6 +198,7 @@ namespace YnovPassword
                    sDossierName.Replace("_", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase);
         }
 
+        // Méthode appelée lors du clic sur le bouton d'aide
         private void OpenHelp_Click(object sender, RoutedEventArgs e)
         {
             classFonctionGenerale.OpenHelp();

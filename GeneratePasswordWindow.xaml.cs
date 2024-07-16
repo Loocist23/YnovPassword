@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Windows;
+using YnovPassword.general;
 using YnovPassword.modele;
 
 namespace YnovPassword
@@ -34,16 +35,27 @@ namespace YnovPassword
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (GeneratePassphrase.IsChecked == true)
+            try
             {
-                GeneratedPassword = GeneratePassphraseMethod((int)LengthSlider.Value);
-            }
-            else
-            {
-                GeneratedPassword = GeneratePassword((int)LengthSlider.Value, IncludeSpecialChars.IsChecked == true, IncludeNumbers.IsChecked == true);
-            }
+                if (GeneratePassphrase.IsChecked == true)
+                {
+                    GeneratedPassword = GeneratePassphraseMethod((int)LengthSlider.Value);
+                }
+                else
+                {
+                    GeneratedPassword = GeneratePassword((int)LengthSlider.Value, IncludeSpecialChars.IsChecked == true, IncludeNumbers.IsChecked == true);
+                }
 
-            GeneratedPasswordTextBox.Text = GeneratedPassword;
+                GeneratedPasswordTextBox.Text = GeneratedPassword;
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Une erreur s'est produite : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UsePasswordButton_Click(object sender, RoutedEventArgs e)
@@ -96,6 +108,10 @@ namespace YnovPassword
             {
                 PasswordLengthTextBlock.Text = LengthSlider.Value.ToString("N0");
             }
+        }
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
         }
     }
 }

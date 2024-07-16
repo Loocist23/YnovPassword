@@ -99,5 +99,9 @@ namespace YnovPassword
         {
             this.Close();
         }
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
+        }
     }
 }

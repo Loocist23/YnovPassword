@@ -48,6 +48,8 @@
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
             <Button Content="Sauvegarder" Margin="5" Style="{StaticResource Btn-primary}" Click="SaveButton_Click"/>
             <Button Content="Fermer" Margin="5" Style="{StaticResource Btn-alert}" Click="CloseButton_Click"/>
+            <Button Content="Aide" Margin="5" Style="{StaticResource Btn-primary}" Click="OpenHelp_Click"/>
+            <!-- Bouton d'aide ajouté -->
         </StackPanel>
     </Grid>
 </Window>

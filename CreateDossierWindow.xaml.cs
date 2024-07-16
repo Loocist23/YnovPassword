@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using YnovPassword.general;
 using YnovPassword.modele;
 
 namespace YnovPassword
@@ -37,6 +38,11 @@ namespace YnovPassword
             MessageBox.Show("Dossier créé avec succès.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             this.DialogResult = true;
             this.Close();
+        }
+
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
         }
     }
 }

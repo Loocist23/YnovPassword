@@ -1,21 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using DLLYnov;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using YnovPassword.general;
-using DLLYnov;
 
 namespace YnovPassword.general
 {
     public abstract class classFonctionGenerale
     {
-
         public static void GestionErreurLog(Exception? ex, string? MessageLibre, bool boolFermeture)
         {
             string MessageFinal = "";
@@ -128,7 +121,29 @@ namespace YnovPassword.general
             oLocal_migrationBuilder.InsertData("ProfilsData", new[] { "ID", "DossiersID", "UtilisateursID", "Nom", "URL", "Login", "EncryptedPassword" }, new object[] { gLocal_IdProfilsData, gLocal_IdDossier, gLocal_IdUtilisateur, classConstantes.sProfilConection_Nom_YnovPassword, "", classConstantes.sUtilisateur_Nom_Superadmin, sLocal_PasswordSuperAdmin });
         }
 
-        
-
+        public static void OpenHelp()
+        {
+            try
+            {
+                string helpFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "YnovPasswordHelp.chm");
+                if (File.Exists(helpFilePath))
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo
+                    {
+                        FileName = helpFilePath,
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                }
+                else
+                {
+                    MessageBox.Show("Le fichier d'aide est introuvable.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                GestionErreurLog(ex, "Erreur lors de l'ouverture du fichier d'aide", false);
+            }
+        }
     }
 }

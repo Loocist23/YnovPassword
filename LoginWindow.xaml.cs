@@ -64,5 +64,11 @@ namespace YnovPassword
             NewUserWindow newUserWindow = new NewUserWindow();
             newUserWindow.ShowDialog();
         }
+
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
+        }
+
     }
 }

@@ -44,6 +44,8 @@
         <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Enregistrer" Margin="5" Style="{StaticResource Btn-primary}" Click="SaveButton_Click" />
             <Button Content="Annuler" Margin="5" Style="{StaticResource Btn-alert}" Click="CancelButton_Click" />
+            <Button Content="Aide" Margin="5" Style="{StaticResource Btn-primary}" Click="OpenHelp_Click"/>
+            <!-- Bouton d'aide ajouté -->
         </StackPanel>
     </Grid>
 </Window>

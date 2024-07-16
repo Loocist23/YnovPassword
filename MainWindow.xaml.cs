@@ -58,22 +58,19 @@ namespace YnovPassword
         {
             if (sender is Button button && button.Tag is ProfilsData item)
             {
-                // Vérifier si l'élément est le premier dans la liste
-                if (_profilsData.FirstOrDefault()?.ID == item.ID)
+                if (MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce profil?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show("Vous ne pouvez pas supprimer le premier profil.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                using (var context = new DataContext())
-                {
-                    context.ProfilsData.Remove(item);
-                    context.SaveChanges();
-                    _profilsData.Remove(item);
-                    _filteredProfilsData.Remove(item);
+                    using (var context = new DataContext())
+                    {
+                        context.ProfilsData.Remove(item);
+                        context.SaveChanges();
+                        _profilsData.Remove(item);
+                        _filteredProfilsData.Remove(item);
+                    }
                 }
             }
         }
+
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -145,5 +142,11 @@ namespace YnovPassword
                 classFonctionGenerale.GestionErreurLog(ex, "Erreur lors de la division par zéro dans CrashApi_Click", false);
             }
         }
+
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
+        }
+
     }
 }

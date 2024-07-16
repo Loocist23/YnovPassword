@@ -16,5 +16,8 @@ namespace YnovPassword.general
 
         public const string sTypeprofilConnection_Nom_YnovPassword = "YNOVPASSWORD";
         public const string sProfilConection_Nom_YnovPassword = "YNOVPASSWORD";
+
+        public const int iBigNumVersion = 9;
+        public const int iSmallNumVersion = 0;
     }
 }

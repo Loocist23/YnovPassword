@@ -1,11 +1,11 @@
 ﻿<Window x:Class="YnovPassword.LoginWindow"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:local="clr-namespace:YnovPassword"
-            mc:Ignorable="d"
-            Title="Connexion - YnovPassword" Height="350" Width="400" ResizeMode="NoResize">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YnovPassword"
+        mc:Ignorable="d"
+        Title="Connexion - YnovPassword" Height="350" Width="400" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,9 +33,11 @@
         </StackPanel>
 
         <!-- Actions -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
             <Button Content="Se Connecter" Margin="10" Width="120" Height="35" Style="{StaticResource Btn-primary}" Click="LoginButton_Click"/>
-            <Button Content="Créer un utilisateur" Margin="10" Width="150" Height="35" Style="{StaticResource Btn-primary}" Click="CreateUserButton_Click" Cursor="Hand"/>
+            <Button Content="Créer un utilisateur" Margin="10" Width="140" Height="35" Style="{StaticResource Btn-primary}" Click="CreateUserButton_Click" Cursor="Hand"/>
+            <Button Content="Aide" Margin="10" Width="80" Height="35" Style="{StaticResource Btn-primary}" Click="OpenHelp_Click"/>
+            <!-- Bouton d'aide ajouté -->
         </StackPanel>
     </Grid>
 </Window>

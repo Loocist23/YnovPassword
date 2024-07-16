@@ -63,5 +63,11 @@ namespace YnovPassword
                 PasswordTextBox.Password = generatePasswordWindow.GeneratedPassword;
             }
         }
+
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
+        }
+
     }
 }

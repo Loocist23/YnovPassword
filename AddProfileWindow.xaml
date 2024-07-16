@@ -41,6 +41,9 @@
         <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" VerticalAlignment="Center">Dossier:</TextBlock>
         <ComboBox x:Name="DossierComboBox" Grid.Row="4" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
 
-        <Button Grid.Row="5" Grid.ColumnSpan="3" Content="Ajouter" Margin="5" Style="{StaticResource Btn-primary}" Click="AddButton_Click"/>
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Ajouter" Margin="5" Style="{StaticResource Btn-primary}" Click="AddButton_Click"/>
+            <Button Content="Aide" Margin="5" Style="{StaticResource Btn-primary}" Click="OpenHelp_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

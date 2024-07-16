@@ -186,5 +186,10 @@ namespace YnovPassword
                    dossierName.Replace("-", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase) ||
                    dossierName.Replace("_", "").Equals("YNOVPASSWORD", StringComparison.OrdinalIgnoreCase);
         }
+
+        private void OpenHelp_Click(object sender, RoutedEventArgs e)
+        {
+            classFonctionGenerale.OpenHelp();
+        }
     }
 }

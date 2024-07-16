@@ -27,7 +27,7 @@
         </StackPanel>
 
         <!-- DataGrid to display and manage Dossiers -->
-        <DataGrid x:Name="dataGridDossiers" Grid.Row="1" AutoGenerateColumns="False" Style="{StaticResource Grid-grisClair}" Margin="5">
+        <DataGrid x:Name="dataGridDossiers" Grid.Row="1" AutoGenerateColumns="False" Style="{StaticResource Grid-grisClair}" Margin="5" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}"/>
@@ -48,6 +48,8 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
             <Button Content="Importer Dictionnaire" Style="{StaticResource Btn-primary}" Click="ImportDictionary_Click" MinHeight="40" Margin="5" Width="153"/>
             <Button Content="Fermer" Style="{StaticResource Btn-alert}" Click="CloseButton_Click" MinHeight="40" Margin="5"/>
+            <Button Content="Aide" Style="{StaticResource Btn-primary}" Click="OpenHelp_Click" MinHeight="40" Margin="5"/>
+            <!-- Bouton d'aide ajouté -->
         </StackPanel>
     </Grid>
 </Window>

@@ -81,5 +81,9 @@ namespace YnovPassword
             classFonctionGenerale.OpenHelp();
         }
 
+        private void txtUsername_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -13,6 +13,7 @@
     <SolidColorBrush x:Key="BlackBrush" Color="#000000"/>
     <SolidColorBrush x:Key="GrayBrush" Color="#9E9E9E"/>
     <SolidColorBrush x:Key="RowAlternateBrush" Color="#F1F1F1"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#333333"/>
 
     <!-- Primary Button Style -->
     <Style TargetType="Button" x:Key="Btn-primary">
@@ -173,6 +174,48 @@
                     <Setter Property="BorderBrush" Value="{StaticResource BlackBrush}"/>
                     <Setter Property="BorderThickness" Value="0,0,1,1"/>
                 </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--PillTextBox-->
+    <Style x:Key="PillTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--PillpasswordBox-->
+    <Style x:Key="PillPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="20">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
